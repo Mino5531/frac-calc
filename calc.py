@@ -14,12 +14,14 @@ inFracMulti = ""
 
 
 def restructCmd(find, rep):
+    # Function for restructuring the cmdList while calculating
     for i in range(len(cmdList)):
         if(cmdList[i] == find):
             cmdList[i] = rep
 
 
 def ggt(a, b):
+    # Function for getting the GCD for reducing the fraction
     if(a > b):
         a, b = b, a
     rest = a % b
