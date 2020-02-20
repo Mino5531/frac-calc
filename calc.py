@@ -1,11 +1,12 @@
 from sys import exit
 
 inList = list(str(raw_input(">")))
-fracList = []
-cmdList = []
+fracList = []  # list of all fractions
+cmdList = []  # list of the commands that are to be applied to the fractions
 tmparr = []
 inFrac = False
 blockCmd = True
+nextIsNeg = False
 tmparrPos = 0
 temparrLoop = 0
 fracPos = 0
@@ -19,6 +20,8 @@ def restructCmd(find, rep):
 
 
 def ggt(a, b):
+    if(a > b):
+        a, b = b, a
     rest = a % b
     while rest > 0:
         rest = a % b
@@ -55,6 +58,7 @@ for i in range(len(inList)):
             inFrac = False
             blockCmd = False
             for e in range(temparrLoop, tmparrPos, 2):
+                # loop through the temp array and append to the frac List
                 if(len(inFracMulti) == 0):
                     fracList.append([int(tmparr[e]), int(tmparr[e+1])])
                 else:
@@ -67,11 +71,19 @@ for i in range(len(inList)):
         if(inList[i] == '/'):
             tmparrPos += 1
             continue
+        if(inList[i] == '-'):
+            try:
+                int(inList[i+1])
+                tmparr[tmparrPos] += str("-")
+                continue
+            except ValueError:
+                print("Invalid character: '-' before "+str(inList[i+1]))
+                exit(-1)
         try:
             int(inList[i])
             tmparr[tmparrPos] += str(inList[i])
         except ValueError:
-            print("Unknown character: "+str(inList[i]))
+            print("Invalid character: "+str(inList[i]))
             exit(-1)
     if(inList[i] == '('):
         inFrac = True
@@ -120,12 +132,22 @@ for i in range(len(inList)):
         fracPos += 1
         blockCmd = True
         continue
+    if(inList[i] == " "):
+        continue
     try:
         if(not inFrac):
             inFracMulti += str(int(inList[i]))
     except ValueError:
         print("Unknown character: "+str(inList[i]))
         exit(-1)
+
+# Check for division through zero
+for i in range(len(fracList)):
+    if(fracList[i][1] == 0):
+        print("(%i,%i) is invalid: Division by 0 is not allowed" %
+              (fracList[i][0], fracList[i][1]))
+        exit(-1)
+
 
 # Multiplication and division
 for i in range(0, len(cmdList), 3):
@@ -159,7 +181,7 @@ for i in range(0, len(cmdList), 3):
 
 num = ggt(fracList[0][0], fracList[0][1])
 reduced = False
-if(num == 1):
+if(num == 1 or num == 0):
     reduced = False
 else:
     reduced = True
@@ -190,7 +212,10 @@ if(reduced):
     print(8*" " + str(int(fracList[0][1]))+lowerSpacer + (18 +
                                                           len(str(num))) * " " + str(int(fracList[0][1]/num)))
 else:
-    print(8*" " + str(int(fracList[0][0]/num)))
-    print("Result: "+barCount*"-")
-    print(8*" " + str(int(fracList[0][1]/num)))
+    if(fracList[0][0] == 0):
+        print("\nResult: 0\n")
+    else:
+        print(8*" " + str(int(fracList[0][0])))
+        print("Result: "+barCount*"-")
+        print(8*" " + str(int(fracList[0][1])))
 print(100*"-")
