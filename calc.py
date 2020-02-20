@@ -28,10 +28,14 @@ def ggt(a, b):
 
 
 def add(frac1, frac2):
+    if(frac1[1] == frac2[1]):
+        return(frac1[0] + frac2[0], frac1[1])
     return(frac1[0]*frac2[1] + frac2[0]*frac1[1], frac1[1]*frac2[1])
 
 
 def subtract(frac1, frac2):
+    if(frac1[1] == frac2[1]):
+        return(frac1[0] - frac2[0], frac1[1])
     return(frac1[0]*frac2[1] - frac2[0]*frac1[1], frac1[1]*frac2[1])
 
 
