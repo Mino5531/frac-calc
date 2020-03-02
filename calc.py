@@ -13,6 +13,44 @@ fracPos = 0
 inFracMulti = ""
 
 
+class fraction:
+    num = None  # numerator
+    denum = None  # denominator
+
+    def __init__(self, num, denum):
+        self.num = num
+        self.denum = denum
+
+    def __add__(self, o):
+        if(self.denum == o.denum):
+            return fraction(self.num+o.num, o.denum)
+        return fraction(self.num*o.denum + o.num*self.denum, self.denum*o.denum)
+
+    def __sub__(self, o):
+        if(self.denum == o.denum):
+            return fraction(self.num-o.num, o.denum)
+        return fraction(self.num*o.denum - o.num*self.denum, self.denum*o.denum)
+
+    def __mul__(self, o):
+        return fraction(self.num * o.num, self.denum * o.denum)
+
+    def __truediv__(self, o):
+        return fraction(self.num * o.denum, self.denum * o.num)
+
+    def reduce(self):
+        if(self.num > self.denum):
+            a, b = self.denum, self.num
+        else:
+            a, b = self.num, self.denum
+        rest = a % b
+        while rest > 0:
+            rest = a % b
+            a = b
+            b = rest
+        self.num = self.num / a
+        self.denum = self.denum / a
+
+
 def restructCmd(find, rep):
     # Function for restructuring the cmdList while calculating
     for i in range(len(cmdList)):
