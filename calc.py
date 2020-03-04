@@ -13,7 +13,7 @@ fracPos = 0
 inFracMulti = ""
 
 
-class fraction:
+class Fraction:
     num = None  # numerator
     denum = None  # denominator
 
@@ -23,19 +23,19 @@ class fraction:
 
     def __add__(self, o):
         if(self.denum == o.denum):
-            return fraction(self.num+o.num, o.denum)
-        return fraction(self.num*o.denum + o.num*self.denum, self.denum*o.denum)
+            return Fraction(self.num+o.num, o.denum)
+        return Fraction(self.num*o.denum + o.num*self.denum, self.denum*o.denum)
 
     def __sub__(self, o):
         if(self.denum == o.denum):
-            return fraction(self.num-o.num, o.denum)
-        return fraction(self.num*o.denum - o.num*self.denum, self.denum*o.denum)
+            return Fraction(self.num-o.num, o.denum)
+        return Fraction(self.num*o.denum - o.num*self.denum, self.denum*o.denum)
 
     def __mul__(self, o):
-        return fraction(self.num * o.num, self.denum * o.denum)
+        return Fraction(self.num * o.num, self.denum * o.denum)
 
     def __truediv__(self, o):
-        return fraction(self.num * o.denum, self.denum * o.num)
+        return Fraction(self.num * o.denum, self.denum * o.num)
 
     def reduce(self):
         if(self.num > self.denum):
